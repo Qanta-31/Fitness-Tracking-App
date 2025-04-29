@@ -21,6 +21,12 @@ import {
 const CustomTooltip = ({ active, payload, label, yKey }) => {
   if (active && payload && payload.length) {
     const value = payload[0].value.toFixed(2);
+
+    // Convert distance to km if it's the distance key
+    if (yKey === 'distance') {
+      value = (value / 1000).toFixed(2);  // Convert meters to kilometers
+    }
+    
     return (
       <div className="bg-black/80 text-white text-sm p-2 rounded">
         <p className="font-semibold">{label}</p>
