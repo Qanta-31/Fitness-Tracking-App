@@ -134,7 +134,7 @@ const PerformancePage = () => {
                     value: yKey === 'calories' ? 'Calories Burned' : 'Distance Travelled',
                     angle: -90,
                     position: 'insideLeft',
-                    style: { fill: '#9ca3af', fontSize: 14 }
+                    style: { fill: '#9ca3af', fontSize: 16, fontWeight: 'bold' }
                   }}
                 />
                 <Tooltip
