@@ -47,7 +47,7 @@ const PerformancePage = () => {
 
     const fetchSignInDate = async () => {
       try {
-        const response = await axiosInstance.get('/api/auth/user/signin-date');
+        const response = await axiosInstance.get('/user/signin-date');
         setSignInDate(parseISO(response.data.signInDate));
       } catch (error) {
         console.error('Error fetching sign-in date:', error);
