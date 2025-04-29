@@ -14,8 +14,7 @@ import {
   startOfWeek,
   endOfWeek,
   eachDayOfInterval,
-  subDays,
-  addDays
+  subDays
 } from 'date-fns';
 
 // ✨ Custom Tooltip with transparent styling
@@ -104,12 +103,12 @@ const PerformancePage = () => {
     ml-auto`;
 
   return (
-    <div className="p-4 sm:p-6 mt-16 max-w-screen-xl mx-auto">
+    <div className="px-4 sm:px-6 md:px-12 lg:px-20 mt-16 max-w-screen-2xl mx-auto">
       {/* Responsive Layout */}
-      <div className="flex flex-col lg:flex-row gap-8 items-start">
+      <div className="flex flex-col lg:flex-row gap-12 items-start">
         {/* Chart Section */}
         <div className="w-full lg:w-1/2 flex flex-col items-center">
-          <h2 className="text-xl font-semibold mb-6 text-center">Weekly Progress</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-center">Weekly Progress</h2>
 
           <div className="w-full">
             <ResponsiveContainer width="100%" height={300}>
@@ -117,13 +116,13 @@ const PerformancePage = () => {
                 <XAxis
                   dataKey="day"
                   tick={{ fill: '#9ca3af', fontSize: 12 }}
-                  axisLine={false}
-                  tickLine={false}
+                  axisLine={true}
+                  tickLine={true}
                 />
                 <YAxis
                   tick={{ fill: '#9ca3af', fontSize: 12 }}
-                  axisLine={false}
-                  tickLine={false}
+                  axisLine={true}
+                  tickLine={true}
                   label={{
                     value: yKey === 'calories' ? 'Calories' : 'Distance',
                     angle: -90,
@@ -133,7 +132,7 @@ const PerformancePage = () => {
                 />
                 <Tooltip
                   content={(props) => <CustomTooltip {...props} yKey={yKey} />}
-                  cursor={false}
+                  cursor={{ fill: 'transparent' }} // removes hover highlight
                 />
                 <Bar
                   dataKey={yKey}
@@ -160,7 +159,7 @@ const PerformancePage = () => {
 
         {/* Heatmap Section */}
         <div className="w-full lg:w-1/2 flex flex-col items-center">
-          <h2 className="text-xl font-semibold mb-6 text-center">Heatmap</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-center">Heatmap</h2>
           <div className="grid grid-cols-16 gap-2">
             {heatmapGrid.map((row, i) => (
               <div key={i} className="flex">
