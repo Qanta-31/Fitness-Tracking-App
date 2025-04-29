@@ -135,8 +135,8 @@ const PerformancePage = () => {
                     angle: -90,
                     position: 'insideLeft',
                     style: { 
-                      fill: yKey === 'calories' ? '#4ade80' : '#3b82f6', // Color based on the yKey
-                      fontSize: 18,
+                      fill,
+                      fontSize: 16,
                       fontWeight: 500,
                     }
                   }}
