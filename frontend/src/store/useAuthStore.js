@@ -12,14 +12,19 @@ export const useAuthStore = create((set) => ({
 
 
     checkAuth: async () => {
-        try { // if user is authenticated
-            const res = await axiosInstance.get("/auth/check");
-            set({authUser : res.data});
-        } catch (error) {  // if user not authenticated
-            console.log("Error in checkAuth: ", error)
-            set({authUser : null})
+      try {
+        const res = await axiosInstance.get("/auth/check");
+        set({ authUser: res.data });
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          console.log("User not authenticated (401) — clearing authUser");
+        } else {
+          console.error("Error in checkAuth:", error);
         }
+        set({ authUser: null });
+      }
     },
+    
 
     signup: async (data) => {
         set({ isSigningUp: true });
