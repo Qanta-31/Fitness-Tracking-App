@@ -19,12 +19,12 @@ import {
 
 // ✨ Custom Tooltip
 const CustomTooltip = ({ active, payload, label, yKey }) => {
-  if (active && payload && payload.length) {
-    const value = payload[0].value.toFixed(2);
+  if (active && payload && payload.length > 0) {
+    let value = payload[0]?.value; // Get the raw value from the payload
 
     // Convert distance to km if it's the distance key
     if (yKey !== 'calories') {
-      value = (value / 1000).toFixed(2);  // Convert meters to kilometers
+      value = (value / 1000).toFixed(2); // Convert meters to kilometers
     }
 
     return (
