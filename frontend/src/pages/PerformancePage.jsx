@@ -131,7 +131,7 @@ const PerformancePage = () => {
                   axisLine={true}
                   tickLine={true}
                   label={{
-                    value: yKey === 'calories' ? 'Calories' : 'Distance',
+                    value: yKey === 'calories' ? 'Calories Burned' : 'Distance Travelled',
                     angle: -90,
                     position: 'insideLeft',
                     style: { fill: '#9ca3af', fontSize: 14 }
