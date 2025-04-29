@@ -107,8 +107,9 @@ const PerformancePage = () => {
       {/* Responsive Layout */}
       <div className="flex flex-col lg:flex-row gap-12 items-start">
         {/* Chart Section */}
-        <div className="w-full lg:w-1/2 flex flex-col items-center self-start">
-          <h2 className="text-2xl font-semibold mb-4 lg:mb-6 text-center">Weekly Progress</h2>
+        {/* Chart Section */}
+        <div className="w-full lg:w-1/2 flex flex-col items-center self-start mt-4">
+          <h2 className="text-2xl font-semibold mb-6 lg:mb-8 text-center">Weekly Progress</h2>
 
           <div className="w-full">
             <ResponsiveContainer width="100%" height={300}>
@@ -158,9 +159,9 @@ const PerformancePage = () => {
         </div>
 
         {/* Heatmap Section */}
-        <div className="w-full lg:w-1/2 flex flex-col items-center self-start">
-          <h2 className="text-2xl font-semibold mb-4 lg:mb-6 text-center">Heatmap</h2>
-          <div className="grid grid-cols-16 gap-2">
+        <div className="w-full lg:w-1/2 flex flex-col items-center self-start mt-4">
+            <h2 className="text-2xl font-semibold mb-6 lg:mb-8 text-center">Heatmap</h2>
+            <div className="grid grid-cols-16 gap-2">
             {heatmapGrid.map((row, i) => (
               <div key={i} className="flex">
                 {row.map((day, j) => (
