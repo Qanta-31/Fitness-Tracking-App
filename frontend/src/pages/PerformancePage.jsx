@@ -108,7 +108,7 @@ const PerformancePage = () => {
       <div className="flex flex-col lg:flex-row gap-12 items-start">
         {/* Chart Section */}
         {/* Chart Section */}
-        <div className="w-full lg:w-1/2 flex flex-col items-center self-start mt-4">
+        <div className="w-full lg:w-1/2 flex flex-col items-center self-start mt-8">
           <h2 className="text-2xl font-semibold mb-6 lg:mb-8 text-center">Weekly Progress</h2>
 
           <div className="w-full">
@@ -159,7 +159,7 @@ const PerformancePage = () => {
         </div>
 
         {/* Heatmap Section */}
-        <div className="w-full lg:w-1/2 flex flex-col items-center self-start mt-4">
+        <div className="w-full lg:w-1/2 flex flex-col items-center self-start mt-8">
             <h2 className="text-2xl font-semibold mb-6 lg:mb-8 text-center">Heatmap</h2>
             <div className="grid grid-cols-16 gap-2">
             {heatmapGrid.map((row, i) => (
