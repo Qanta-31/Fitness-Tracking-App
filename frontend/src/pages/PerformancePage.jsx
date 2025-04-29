@@ -17,6 +17,7 @@ import {
   subDays
 } from 'date-fns';
 
+// ✨ Custom Tooltip
 const CustomTooltip = ({ active, payload, label, yKey }) => {
   if (active && payload && payload.length) {
     const value = payload[0].value.toFixed(2);
@@ -102,10 +103,11 @@ const PerformancePage = () => {
     ml-auto`;
 
   return (
-    <div className="min-h-screen flex flex-col justify-center px-4 sm:px-6 md:px-12 lg:px-20 max-w-screen-2xl mx-auto">
-      <div className="flex flex-col lg:flex-row gap-y-12 lg:gap-y-20 gap-x-16 items-start pt-12 lg:pt-0">
+    <div className="px-4 sm:px-6 md:px-12 lg:px-20 mt-16 max-w-screen-2xl mx-auto">
+      {/* Responsive Layout */}
+      <div className="flex flex-col lg:flex-row gap-12 items-start">
         {/* Chart Section */}
-        <div className="w-full lg:w-1/2 flex flex-col items-center self-stretch">
+        <div className="w-full lg:w-1/2 flex flex-col items-center self-stretch lg:mt-12">
           <h2 className="text-2xl font-semibold mb-6 text-center">Weekly Progress</h2>
 
           <div className="w-full">
@@ -156,7 +158,7 @@ const PerformancePage = () => {
         </div>
 
         {/* Heatmap Section */}
-        <div className="w-full lg:w-1/2 flex flex-col items-center self-stretch">
+        <div className="w-full lg:w-1/2 flex flex-col items-center">
           <h2 className="text-2xl font-semibold mb-6 text-center">Heatmap</h2>
           <div className="grid grid-cols-16 gap-2">
             {heatmapGrid.map((row, i) => (
@@ -165,7 +167,7 @@ const PerformancePage = () => {
                   <div
                     key={j}
                     title={day?.date}
-                    className={`w-4 h-4 md:w-5 md:h-5 mx-0.5 rounded-md transition-all
+                    className={`w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 mx-0.5 rounded-md transition-all
                       ${day.active ? 'bg-green-400' : 'bg-gray-200'}`}
                   />
                 ))}
