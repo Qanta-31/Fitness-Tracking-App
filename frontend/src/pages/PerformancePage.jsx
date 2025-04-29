@@ -136,8 +136,8 @@ const PerformancePage = () => {
                     position: 'insideLeft',
                     style: { 
                       fill: yKey === 'calories' ? '#4ade80' : '#3b82f6', // Color based on the yKey
-                      fontSize: 16,
-                      fontWeight: 'bold',
+                      fontSize: 18,
+                      fontWeight: 500,
                     }
                   }}
                 />
