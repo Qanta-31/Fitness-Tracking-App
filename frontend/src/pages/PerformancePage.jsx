@@ -18,31 +18,21 @@ import {
   addDays
 } from 'date-fns';
 
-// ✨ Custom Tooltip
+// ✨ Custom Tooltip with transparent styling
 const CustomTooltip = ({ active, payload, label, yKey }) => {
   if (active && payload && payload.length) {
-    const value = payload[0].value;
-    const formattedValue = value.toFixed(2);
-
+    const value = payload[0].value.toFixed(2);
     return (
-      <div
-        className="p-2 rounded-md"
-        style={{
-          backgroundColor: 'rgba(0,0,0,0.7)',
-          color: '#fff',
-          fontSize: '14px'
-        }}
-      >
-        <p className="font-semibold mb-1">{label}</p>
-        {yKey === 'calories' ? (
-          <p>🔥 Calories Burnt: {formattedValue} kcal</p>
-        ) : (
-          <p>🛣️ Distance Covered: {formattedValue} km</p>
-        )}
+      <div className="bg-black/80 text-white text-sm p-2 rounded">
+        <p className="font-semibold">{label}</p>
+        <p>
+          {yKey === 'calories'
+            ? `🔥 Calories: ${value} kcal`
+            : `🛣️ Distance: ${value} km`}
+        </p>
       </div>
     );
   }
-
   return null;
 };
 
@@ -53,64 +43,44 @@ const PerformancePage = () => {
 
   useEffect(() => {
     const fetchActivities = async () => {
-      try {
-        const response = await axiosInstance.get('/activity');
-        setActivities(response.data);
-      } catch (error) {
-        console.error('Error fetching activities:', error);
-      }
+      const res = await axiosInstance.get('/activity');
+      setActivities(res.data);
+    };
+    const fetchSignInDate = async () => {
+      const res = await axiosInstance.get('/user/signin-date');
+      setSignInDate(parseISO(res.data.signInDate));
     };
     fetchActivities();
-
-    const fetchSignInDate = async () => {
-      try {
-        const response = await axiosInstance.get('/user/signin-date');
-        setSignInDate(parseISO(response.data.signInDate));
-      } catch (error) {
-        console.error('Error fetching sign-in date:', error);
-      }
-    };
     fetchSignInDate();
   }, []);
 
   const aggregatedData = activities.reduce((acc, activity) => {
     const date = format(parseISO(activity.startTime), 'yyyy-MM-dd');
-    if (!acc[date]) {
-      acc[date] = { date, calories: 0, distance: 0 };
-    }
+    if (!acc[date]) acc[date] = { date, calories: 0, distance: 0 };
     acc[date].calories += activity.calories;
     acc[date].distance += activity.distance;
     return acc;
   }, {});
 
   const today = new Date();
-  const currentWeekStart = startOfWeek(today, { weekStartsOn: 0 });
-  const currentWeekEnd = endOfWeek(today, { weekStartsOn: 0 });
-
-  const currentWeekDays = eachDayOfInterval({
-    start: currentWeekStart,
-    end: currentWeekEnd
-  });
+  const currentWeekStart = startOfWeek(today);
+  const currentWeekEnd = endOfWeek(today);
+  const currentWeekDays = eachDayOfInterval({ start: currentWeekStart, end: currentWeekEnd });
 
   const chartData = currentWeekDays.map((date) => {
     const dateStr = format(date, 'yyyy-MM-dd');
     const activity = aggregatedData[dateStr] || { calories: 0, distance: 0 };
     return {
-      day: format(date, 'EEE'), // shorter labels
+      day: format(date, 'EEE'),
       calories: activity.calories,
       distance: activity.distance
     };
   });
 
-  const startDate = signInDate ? signInDate : subDays(today, 255);
-  const endDate = today;
-  const days = eachDayOfInterval({ start: startDate, end: endDate });
+  const startDate = signInDate || subDays(today, 255);
+  const allDays = eachDayOfInterval({ start: startDate, end: today });
 
-  while (days.length < 256) {
-    days.push(addDays(endDate, days.length - 256));
-  }
-
-  let heatmapData = days.map((day) => {
+  let heatmapData = allDays.map((day) => {
     const dateStr = format(day, 'yyyy-MM-dd');
     const activity = aggregatedData[dateStr];
     return {
@@ -120,7 +90,6 @@ const PerformancePage = () => {
   });
 
   heatmapData.reverse();
-
   const heatmapGrid = [];
   for (let i = 0; i < 16; i++) {
     heatmapGrid.push(heatmapData.slice(i * 16, (i + 1) * 16));
@@ -136,19 +105,15 @@ const PerformancePage = () => {
 
   return (
     <div className="p-4 sm:p-6 mt-16 max-w-screen-xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-        {/* Bar Chart Section */}
-        <div className="flex flex-col items-center w-full">
-          <h2 className="text-xl font-semibold mb-6 text-center">
-            Weekly Progress
-          </h2>
+      {/* Responsive Layout */}
+      <div className="flex flex-col lg:flex-row gap-8 items-start">
+        {/* Chart Section */}
+        <div className="w-full lg:w-1/2 flex flex-col items-center">
+          <h2 className="text-xl font-semibold mb-6 text-center">Weekly Progress</h2>
 
-          <div className="bg-white dark:bg-zinc-800 shadow-lg rounded-xl p-4 w-full">
+          <div className="w-full">
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart
-                data={chartData}
-                style={{ backgroundColor: 'transparent' }}
-              >
+              <BarChart data={chartData}>
                 <XAxis
                   dataKey="day"
                   tick={{ fill: '#9ca3af', fontSize: 12 }}
@@ -160,40 +125,29 @@ const PerformancePage = () => {
                   axisLine={false}
                   tickLine={false}
                   label={{
-                    value:
-                      yKey === 'calories'
-                        ? 'Calories Burnt'
-                        : 'Distance Covered',
+                    value: yKey === 'calories' ? 'Calories' : 'Distance',
                     angle: -90,
                     position: 'insideLeft',
-                    style: {
-                      textAnchor: 'middle',
-                      fill: '#9ca3af',
-                      fontSize: 14
-                    }
+                    style: { fill: '#9ca3af', fontSize: 14 }
                   }}
                 />
                 <Tooltip
                   content={(props) => <CustomTooltip {...props} yKey={yKey} />}
-                  cursor={{ fill: 'rgba(0,0,0,0.05)' }}
+                  cursor={false}
                 />
                 <Bar
                   dataKey={yKey}
                   fill={yKey === 'calories' ? '#4ade80' : '#3b82f6'}
                   radius={[8, 8, 0, 0]}
+                  isAnimationActive={false}
                 />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
-          {/* Toggle Button */}
           <div className="mt-6">
             <button
-              onClick={() =>
-                setYKey((prev) =>
-                  prev === 'calories' ? 'distance' : 'calories'
-                )
-              }
+              onClick={() => setYKey((prev) => (prev === 'calories' ? 'distance' : 'calories'))}
               className={toggleButtonStyles}
             >
               <span className="font-semibold text-sm">
@@ -205,19 +159,18 @@ const PerformancePage = () => {
         </div>
 
         {/* Heatmap Section */}
-        <div className="flex flex-col items-center w-full">
+        <div className="w-full lg:w-1/2 flex flex-col items-center">
           <h2 className="text-xl font-semibold mb-6 text-center">Heatmap</h2>
           <div className="grid grid-cols-16 gap-2">
-            {heatmapGrid.map((row, rowIndex) => (
-              <div key={rowIndex} className="flex">
-                {row.map((day, colIndex) => (
+            {heatmapGrid.map((row, i) => (
+              <div key={i} className="flex">
+                {row.map((day, j) => (
                   <div
-                    key={colIndex}
+                    key={j}
                     title={day?.date}
-                    className={`mx-0.5 w-4 h-4 md:w-5 md:h-5 rounded-md 
-                      ${day.active ? 'bg-green-400' : 'bg-gray-200'} 
-                      transition-all`}
-                  ></div>
+                    className={`w-4 h-4 md:w-5 md:h-5 mx-0.5 rounded-md transition-all
+                      ${day.active ? 'bg-green-400' : 'bg-gray-200'}`}
+                  />
                 ))}
               </div>
             ))}
