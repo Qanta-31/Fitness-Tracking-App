@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+
 import { useNavigate } from 'react-router-dom';
 import { useActivityStore } from '../store/useActivityStore';
 import { formatDuration, formatDistance } from '../utils/formatters';
@@ -9,6 +11,14 @@ import { axiosInstance } from '../lib/axios';
 import { useAuthStore } from '../store/useAuthStore';
 import toast from 'react-hot-toast';
 
+
+// ✅ Fix Leaflet's default icon issue
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: new URL('leaflet/dist/images/marker-icon-2x.png', import.meta.url).href,
+  iconUrl: new URL('leaflet/dist/images/marker-icon.png', import.meta.url).href,
+  shadowUrl: new URL('leaflet/dist/images/marker-shadow.png', import.meta.url).href,
+});
 
 const RecenterMap = ({ location }) => {
   const map = useMap();
@@ -78,7 +88,7 @@ const ActivityPage = () => {
     stopTracking();
     const endTime = new Date();
     const dur = Math.floor((endTime - startTime) / 1000);
-    const cal = Math.floor(distance * 0.05); // Example calculation
+    const cal = Math.floor((distance / 1000) * 62); // Example calculation
     setDuration(dur);
     setCalories(cal);
     setModalVisible(true);
