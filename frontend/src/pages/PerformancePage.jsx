@@ -103,7 +103,7 @@ const PerformancePage = () => {
     ml-auto`;
 
   return (
-    <div className="px-4 sm:px-6 md:px-12 lg:px-20 mt-16 max-w-screen-2xl mx-auto">
+    <div className="px-4 sm:px-6 md:px-12 lg:px-20 mt-20 max-w-screen-2xl mx-auto">
       {/* Responsive Layout */}
       <div className="flex flex-col lg:flex-row gap-12 items-start">
         {/* Chart Section */}
