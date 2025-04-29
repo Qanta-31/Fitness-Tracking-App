@@ -158,7 +158,7 @@ const PerformancePage = () => {
         </div>
 
         {/* Heatmap Section */}
-        <div className="w-full lg:w-1/2 flex flex-col items-center">
+        <div className="w-full lg:w-1/2 mt-20 flex flex-col items-center">
           <h2 className="text-2xl font-semibold mb-6 text-center">Heatmap</h2>
           <div className="grid grid-cols-16 gap-2">
             {heatmapGrid.map((row, i) => (
