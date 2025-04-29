@@ -67,6 +67,17 @@ export const signup = async (req, res) => {
     }
 };
 
+
+export const getSignInDate = async (req, res) => {
+    try {
+      const user = req.user;  // Access authenticated user from req.user
+      res.status(200).json({ signInDate: user.createdAt });  // Send user's createdAt date (sign-in date)
+    } catch (error) {
+      console.error("Error fetching sign-in date:", error.message);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  };
+
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
