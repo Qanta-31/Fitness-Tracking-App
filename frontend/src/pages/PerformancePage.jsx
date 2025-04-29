@@ -135,7 +135,7 @@ const PerformancePage = () => {
                     angle: -90,
                     position: 'insideLeft',
                     style: { 
-                      fill,
+                      fill:'#9ca3af',
                       fontSize: 16,
                       fontWeight: 500,
                     }
