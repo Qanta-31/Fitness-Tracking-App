@@ -17,7 +17,6 @@ import {
   subDays
 } from 'date-fns';
 
-// ✨ Custom Tooltip with transparent styling
 const CustomTooltip = ({ active, payload, label, yKey }) => {
   if (active && payload && payload.length) {
     const value = payload[0].value.toFixed(2);
@@ -103,11 +102,10 @@ const PerformancePage = () => {
     ml-auto`;
 
   return (
-    <div className="px-4 sm:px-6 md:px-12 lg:px-20 mt-16 max-w-screen-2xl mx-auto">
-      {/* Responsive Layout */}
-      <div className="flex flex-col lg:flex-row gap-12 items-start">
+    <div className="min-h-screen flex flex-col justify-center px-4 sm:px-6 md:px-12 lg:px-20 max-w-screen-2xl mx-auto">
+      <div className="flex flex-col lg:flex-row gap-y-12 lg:gap-y-20 gap-x-16 items-start pt-12 lg:pt-0">
         {/* Chart Section */}
-        <div className="w-full lg:w-1/2 flex flex-col items-center">
+        <div className="w-full lg:w-1/2 flex flex-col items-center self-stretch">
           <h2 className="text-2xl font-semibold mb-6 text-center">Weekly Progress</h2>
 
           <div className="w-full">
@@ -132,7 +130,7 @@ const PerformancePage = () => {
                 />
                 <Tooltip
                   content={(props) => <CustomTooltip {...props} yKey={yKey} />}
-                  cursor={{ fill: 'transparent' }} // removes hover highlight
+                  cursor={{ fill: 'transparent' }}
                 />
                 <Bar
                   dataKey={yKey}
@@ -158,7 +156,7 @@ const PerformancePage = () => {
         </div>
 
         {/* Heatmap Section */}
-        <div className="w-full lg:w-1/2 flex flex-col items-center">
+        <div className="w-full lg:w-1/2 flex flex-col items-center self-stretch">
           <h2 className="text-2xl font-semibold mb-6 text-center">Heatmap</h2>
           <div className="grid grid-cols-16 gap-2">
             {heatmapGrid.map((row, i) => (
