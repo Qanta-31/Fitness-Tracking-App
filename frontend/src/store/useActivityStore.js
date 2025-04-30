@@ -87,7 +87,7 @@ export const useActivityStore = create((set, get) => {
           const now = new Date();  // Get the current time
           const elapsed = Math.floor((now - get().startTime) / 1000);  // Calculate elapsed time in seconds
           const distance = get().distance;  // Get the total distance covered so far
-          const pace = elapsed > 0 ? (distance / (elapsed / 60)).toFixed(2) : 0;  // Calculate the pace (distance per minute)
+          const pace = elapsed > 0 ? ((distance / 1000) / (elapsed / 3600)).toFixed(2) : 0; // pace in km/hr
 
           // Update the state with the new metrics
           set({

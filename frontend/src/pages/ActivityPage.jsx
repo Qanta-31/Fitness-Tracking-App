@@ -178,7 +178,7 @@ const ActivityPage = () => {
       {/* Right Panel on large screens */}
       <div className="hidden lg:flex w-full lg:w-1/3 flex-col justify-between p-4 border-gray-300">
         <div className='mt-36'>
-          <p className='text-4xl mb-7'><strong>Average Pace:</strong> {pace} km/h</p>
+          <p className='text-4xl mb-7'><strong>Average Pace:</strong> {pace} km/hr</p>
           <p className='text-4xl mb-7'><strong>Distance:</strong> {formatDistance(distance)}</p>
           <p className='text-4xl mb-7'><strong>Time:</strong> {formatDuration(duration)}</p>
         </div>
